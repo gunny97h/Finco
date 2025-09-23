@@ -2,7 +2,7 @@
 name: "✨ 기능 구현 (Feature)"
 about: 새로운 기능을 제안하거나 작업을 등록합니다.
 title: "[Feature] "
-labels: ''
+labels: feat
 assignees: ''
 
 ---
