@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>홈</title>
+    <th:block layout:fragment="extraHead">
+        <!-- index 전용 CSS 필요하면 여기에 -->
+        <link rel="stylesheet" href="/css/index.css">
+    </th:block>
+</head>
+<body>
+<main layout:fragment="content">
+
+    <!-- Hero 섹션 -->
+    <header class="hero bg-light pt-5 mt-5">
+        <div class="hero-bg"></div>
+        <div class="container text-center py-5">
+            <h2 class="fw-bold">대한민국 디지털 자산 거래소</h2>
+            <h1 class="display-5 text-primary">Finco</h1>
+            <div class="mt-4">
+                <a href="#" class="btn btn-dark btn-lg">거래소 둘러보기</a>
+                <a href="#" class="btn btn-primary btn-lg">로그인</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 지수/통계 -->
+    <section class="bg-white py-3 border-top border-bottom">
+        <div class="container text-center">
+            <div class="row g-3">
+                <div class="col-md-3"><strong>Finco 종합 지수</strong><br>17,616.52 <span class="text-danger">-0.15%</span></div>
+                <div class="col-md-3"><strong>알트코인 지수</strong><br>6,401.92 <span class="text-danger">-0.27%</span></div>
+                <div class="col-md-3"><strong>투자자 신뢰 지수</strong><br>53/100 <span class="text-muted">중립</span></div>
+                <div class="col-md-3"><strong>24시간 거래대금</strong><br>3.04조 <span class="text-danger">-21.16%</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 거래량 테이블 -->
+    <section class="py-5">
+        <div class="container">
+            <h4 class="mb-3">거래량</h4>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                    <tr>
+                        <th>코인명/심볼</th>
+                        <th class="text-end">현재가</th>
+                        <th class="text-end">전일대비</th>
+                        <th class="text-end">거래대금</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>비트코인 BTC/KRW</td>
+                        <td class="text-end">90,000,000</td>
+                        <td class="text-end text-success">+2.31%</td>
+                        <td class="text-end">₩ 12,381억</td>
+                    </tr>
+                    <tr>
+                        <td>이더리움 ETH/KRW</td>
+                        <td class="text-end">6,279,000</td>
+                        <td class="text-end text-danger">-0.11%</td>
+                        <td class="text-end">₩ 9,384억</td>
+                    </tr>
+                    <tr>
+                        <td>리플 XRP/KRW</td>
+                        <td class="text-end">4,207</td>
+                        <td class="text-end text-success">+4.85%</td>
+                        <td class="text-end">₩ 9,014억</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 공지/배너 -->
+    <section class="bg-light py-4">
+        <div class="container">
+            <h5>공지사항</h5>
+            <ul class="list-unstyled">
+                <li class="py-1"><strong>50억 규모 이벤트!</strong> 32 BTC 상금 지급 (09/20 적용 예정)</li>
+                <li class="py-1">개인정보 처리방침 개정 안내 (09/20)</li>
+            </ul>
+            <div class="alert alert-primary mt-3">STAMP 챌린지, 미션 클리어하고 보상 받으세요!</div>
+        </div>
+    </section>
+
+</main>
+
+<th:block layout:fragment="extraScripts">
+    <!-- index 전용 JS 필요하면 여기에 -->
+</th:block>
+</body>
+</html>
