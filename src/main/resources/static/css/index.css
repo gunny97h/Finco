@@ -1,0 +1,30 @@
+/* 고정 헤더 높이 보정 (navbar 높이와 맞추기) */
+.fixed-top-spacer { height: 70px; }
+
+/* 히어로 영역 배경(선택) */
+.hero {
+    position: relative;
+    background: #f8fafc;
+}
+
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    background: url('/img/stock.png') no-repeat center 10%;
+    background-size: 200px;
+    opacity: 0.05;
+    z-index: 0;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1; /* 항상 위 */
+    padding: 4rem 1rem;
+}
+
+
+/* 표 라인 높이 */
+.table td, .table th { vertical-align: middle; }
+
+/* 폰트(선택) */
+body { font-family: 'Noto Sans KR', system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
