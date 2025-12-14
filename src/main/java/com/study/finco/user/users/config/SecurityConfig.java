@@ -1,0 +1,35 @@
+package com.study.finco.user.users.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+
+
+
+@Configuration
+public class SecurityConfig {
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests(auth -> auth
+                .requestMatchers(
+                        "/", "/css/**","/js/**","/img/**","/error",
+                       "/users/signup","/users/login"
+
+                ).permitAll()
+                .anyRequest().authenticated()
+        )
+            .formLogin(form -> form.loginPage("/users/login").permitAll()
+        )
+                .logout(Customizer.withDefaults());//로그아웃시 세션 초기화
+        return http.build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+}

@@ -15,8 +15,8 @@ public class MainController {
     @GetMapping("/")
     public String index() {
 
-        String email = mainService.getEmail();
-        System.out.println(email);
+//        String email = mainService.getEmail();
+//        System.out.println(email);
 
         return "index";
     }
