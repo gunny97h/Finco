@@ -1,5 +1,7 @@
 package com.study.finco.user.users.config;
 
+import com.study.finco.user.common.crypto.CryptoUtil;
+import com.study.finco.user.users.mapper.UserMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -13,7 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, UserMapper userMapper, CryptoUtil cryptoUtil) throws Exception {
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers(
                         "/", "/css/**","/js/**","/img/**","/error",
@@ -22,7 +24,14 @@ public class SecurityConfig {
                 ).permitAll()
                 .anyRequest().authenticated()
         )
-            .formLogin(form -> form.loginPage("/users/login").permitAll()
+            .formLogin(form -> form
+                    .loginPage("/users/login")
+                    .loginProcessingUrl("/login")
+                    .usernameParameter("email")
+                    .passwordParameter("password")
+                    .successHandler(new LoginSuccessHandler(userMapper))
+                    .failureHandler(new LoginFailureHandler(userMapper, cryptoUtil, 5))
+                    .permitAll()
         )
                 .logout(Customizer.withDefaults());//로그아웃시 세션 초기화
         return http.build();

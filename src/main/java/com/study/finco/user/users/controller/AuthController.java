@@ -1,7 +1,10 @@
 package com.study.finco.user.users.controller;
 
+import com.study.finco.user.users.model.dto.LoginRequest;
 import com.study.finco.user.users.model.dto.SignupRequest;
 import com.study.finco.user.users.service.UserSignupService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +30,7 @@ public class AuthController {
     @PostMapping("/signup")
     public String signup(@ModelAttribute("signupRequest") SignupRequest signupRequest, Model model) {
         try{
-            userSignupService.signup(signupRequest);//오류 없음
+            userSignupService.signup(signupRequest);//오류 없음  dto
             return "redirect:/users/login";
         }
         catch (IllegalArgumentException e){
@@ -37,9 +40,10 @@ public class AuthController {
 
     }
     @GetMapping("/login")
-    public String login() {
+    public String login(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession(true);
+        model.addAttribute("loginRequest", new LoginRequest());
         return "users/login";
     }
-
 
 }

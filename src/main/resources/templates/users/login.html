@@ -4,35 +4,198 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
-    <!-- 타이틀명 적으면 자동으로 (example | Finco)로 설정되게 해뒀음. example은 원하는거 적으면 됨 -->
-    <title>example</title>
-    <th:block layout:fragment="extraHead">
-        <!-- 넣고싶은 CSS 필요하면 여기에 넣으셈 -->
+    <title>로그인</title>
 
-        <!-- 넣고싶은 CSS 필요하면 여기에 넣으셈 -->
+    <th:block layout:fragment="extraHead">
+        <style>
+            .page-wrap{
+                max-width: 420px;
+                margin: 0 auto;
+                padding: 48px 16px;
+            }
+
+            .card{
+                background: #fff;
+                border: 1px solid #e7e7e7;
+                border-radius: 16px;
+                padding: 22px 20px;
+                box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+            }
+
+            .title{
+                margin: 0 0 6px 0;
+                font-size: 22px;
+                font-weight: 800;
+                letter-spacing: -0.3px;
+            }
+
+            .subtitle{
+                margin: 0 0 18px 0;
+                font-size: 13px;
+                opacity: 0.75;
+                line-height: 1.4;
+            }
+
+            .msg{
+                border-radius: 10px;
+                padding: 10px 12px;
+                margin: 0 0 14px 0;
+                font-size: 13px;
+                line-height: 1.35;
+            }
+            .msg.error{ background: #fff1f1; border: 1px solid #ffd1d1; color: #b42318; }
+            .msg.ok{ background: #f0fff4; border: 1px solid #b7ebc6; color: #067647; }
+
+            .form-row{ margin-bottom: 12px; }
+            .form-row label{
+                display:block;
+                margin-bottom: 6px;
+                font-weight: 700;
+                font-size: 13px;
+            }
+
+            .input{
+                width: 100%;
+                box-sizing: border-box;
+                padding: 12px 12px;
+                border: 1px solid #dcdcdc;
+                border-radius: 12px;
+                outline: none;
+                font-size: 14px;
+                transition: box-shadow .15s ease, border-color .15s ease;
+                background: #fff;
+            }
+            .input:focus{
+                border-color: #5b8cff;
+                box-shadow: 0 0 0 4px rgba(91,140,255,0.18);
+            }
+
+            .help{
+                margin-top: 6px;
+                font-size: 12px;
+                opacity: 0.7;
+            }
+
+            .actions{
+                display:flex;
+                gap: 10px;
+                align-items: center;
+                margin-top: 14px;
+            }
+
+            .btn{
+                appearance:none;
+                border: 0;
+                border-radius: 12px;
+                padding: 12px 14px;
+                font-weight: 800;
+                font-size: 14px;
+                cursor: pointer;
+                transition: transform .05s ease, opacity .15s ease;
+            }
+            .btn:active{ transform: translateY(1px); }
+
+            .btn.primary{
+                flex: 1;
+                background: #1f6feb;
+                color: #fff;
+            }
+            .btn.primary:hover{ opacity: .92; }
+
+            .link{
+                display:inline-block;
+                font-size: 13px;
+                font-weight: 700;
+                text-decoration: none;
+                opacity: 0.85;
+            }
+            .link:hover{ opacity: 1; text-decoration: underline; }
+
+            .divider{
+                display:flex;
+                align-items:center;
+                gap: 10px;
+                margin: 18px 0 12px 0;
+                opacity: 0.55;
+                font-size: 12px;
+            }
+            .divider:before, .divider:after{
+                content:"";
+                flex:1;
+                height:1px;
+                background:#e7e7e7;
+            }
+
+            .foot{
+                margin-top: 10px;
+                font-size: 12px;
+                opacity: 0.75;
+                line-height: 1.4;
+            }
+        </style>
     </th:block>
 </head>
 <body>
 
-<!-- axios 설정 cdn, 필요없으면 지우셈-->
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-
 <main layout:fragment="content">
-    <!-- 여기에 개발 내용 들어가야함!!! -->
-    <!-- 여기에 개발 내용 들어가야함!!! -->
+    <div class="page-wrap">
+        <div class="card">
+            <h2 class="title">로그인</h2>
+            <p class="subtitle">이메일과 비밀번호를 입력해 Finco에 로그인하세요.</p>
 
+            <!-- Spring Security 기본 실패/로그아웃 파라미터 -->
+            <div class="msg error" th:if="${param.error}">
+                아이디(이메일) 또는 비밀번호가 올바르지 않습니다.
+            </div>
+            <div class="msg ok" th:if="${param.logout}">
+                로그아웃 되었습니다.
+            </div>
 
-    <!-- 여기에 개발 내용 들어가야함!!! -->
-    <!-- 여기에 개발 내용 들어가야함!!! -->
+            <!-- formLogin 기본 처리 URL: /login -->
+            <form th:action="@{/login}" th:object="${loginRequest}" method="post">
+                <!-- CSRF 토큰 (CSRF ON이면 필수) -->
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+                <div class="form-row">
+                    <label for="email">이메일</label>
+                    <!-- Spring Security 기본 파라미터명은 username/password -->
+                    <input class="input" id="email"  type="email" name="username"
+                           placeholder="name@example.com" autocomplete="username" th:field="*{email}" required/>
+                    <div class="help">회원가입 시 사용한 이메일을 입력하세요.</div>
+                </div>
+
+                <div class="form-row">
+                    <label for="password">비밀번호</label>
+                    <input class="input" id="password"  type="password" name="password"
+                           placeholder="비밀번호" autocomplete="current-password" th:field="*{password}" required/>
+                </div>
+
+                <div class="actions">
+                    <button class="btn primary" type="submit">로그인</button>
+                    <a class="link" th:href="@{/users/signup}">회원가입</a>
+                </div>
+            </form>
+
+            <div class="divider">또는</div>
+
+            <!-- 나중에 OAuth 붙일 자리 -->
+            <div class="actions" style="gap:12px;">
+                <a class="btn" style="flex:1; background:#FEE500; color:#111; text-align:center; text-decoration:none;"
+                   href="#" onclick="alert('카카오 로그인은 추후 연결'); return false;">카카오로 로그인</a>
+                <a class="btn" style="flex:1; background:#03C75A; color:#fff; text-align:center; text-decoration:none;"
+                   href="#" onclick="alert('네이버 로그인은 추후 연결'); return false;">네이버로 로그인</a>
+            </div>
+
+            <p class="foot">
+                비밀번호를 잊으셨나요? <a class="link" href="#" onclick="alert('비밀번호 재설정은 추후 구현'); return false;">비밀번호 재설정</a>
+            </p>
+        </div>
+    </div>
 </main>
 
 <th:block layout:fragment="extraScripts">
-    <!-- 넣고싶은 JS 필요하면 여기에 넣으셈 -->
-
-    <!-- 넣고싶은 JS 필요하면 여기에 넣으셈 -->
+    <!-- 필요하면 JS 추가 -->
 </th:block>
+
 </body>
 </html>
-
-
